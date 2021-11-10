@@ -26,15 +26,14 @@ echo -ne "
     You can skip an option depending thats is already done.   
 -----------------------------------------------------------------
     1)     Connect to internet                             
-    2)     Format disk drive                               
-    3)     Mount disk drive                                
-    4)     Pacstrap packages and generate fstab            
-    5)     Locale generation (keyboard and sys language)   
-    6)     Configure pacman and reflector                  
-    7)     Install packages                                
-    8)     Enable services                                 
-    9)     Add user                                        
-    10)    Install bootloader
+    2)     Select disk drive, format and mounting                                         
+    3)     Pacstrap packages and generate fstab            
+    4)     Locale generation (keyboard and sys language)   
+    5)     Configure pacman and reflector                  
+    6)     Install packages                                
+    7)     Enable services                                 
+    8)     Add user                                        
+    9)     Install bootloader
     0)     Exit   
 
 Choose an option:  
@@ -45,6 +44,7 @@ case $Op in
     *) echo -e "Wrong option";;
     1) bash scripts/connect.sh; menu;;
     2) bash scripts/format.sh; menu;;
+    3) bash scripts/pacstrap.sh; menu;;
 esac
 
 }
