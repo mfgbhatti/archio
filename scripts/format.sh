@@ -18,7 +18,8 @@ echo -ne "
 
 Choose an option:
 "
-    case $DISK in
+    read partition
+    case $partition in
         1)
         lsblk
         echo "Choose your disk e.g. /dev/sda:"
