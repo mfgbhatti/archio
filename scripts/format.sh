@@ -17,9 +17,7 @@ echo -ne "
 
 Choose an option:
 "
-}
-clear
-menu
+
 pacman -S --noconfirm gptfdisk &>/dev/null
 lsblk
 echo "Choose your disk e.g. /dev/sda:"
@@ -84,4 +82,6 @@ mount -o noatime,commit=120,compress=zstd,space_cache,subvol=@ -L ROOT /mnt
 mkdir /mnt/{boot,boot/efi} &>/dev/null
 # installing systemd boot
 mount -t vfat -L EFIBOOT /mnt/boot
-
+}
+clear
+menu
