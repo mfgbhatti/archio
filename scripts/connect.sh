@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 menu () {
 echo -ne "
         .o.                          oooo         o8o            
