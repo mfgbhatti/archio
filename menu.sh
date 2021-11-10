@@ -40,11 +40,11 @@ Choose an option:
 "                         
 read Op
 case $Op in
-    0) exit 0;;
-    *) echo -e "Wrong option";;
     1) bash scripts/connect.sh; menu;;
     2) bash scripts/format.sh; menu;;
     3) bash scripts/pacstrap.sh; menu;;
+    0) exit 0;;
+    *) echo -e "Wrong option";;
 esac
 
 }
