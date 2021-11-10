@@ -56,8 +56,8 @@ case $DISK in
             ;;
             n|N|no|No|NO) echo "Exiting partioning mode";;
             *) echo "Wrong option";;
-            ;;
             esac
+            ;;
         n|N|no|No|NO) echo "Exiting partioning mode";;
         *) echo "Wrong option";;
         esac
