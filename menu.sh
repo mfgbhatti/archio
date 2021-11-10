@@ -1,0 +1,51 @@
+#!/usr/bin/env bash
+#"     .o.                          oooo         o8o            "
+#"    .888.                         '888         '''            "
+#"   .8'888.     oooo d8b  .ooooo.   888 .oo.   oooo   .ooooo.  "
+#"  .8' '888.    '888''8P d88' ''Y8  888P'Y88b  '888  d88' '88b "
+#" .88ooo8888.    888     888        888   888   888  888   888 "
+#".8'     '888.   888     888   .o8  888   888   888  888   888 "
+#"88o     o8888o d888b    'Y8bod8P' o888o o888o o888o 'Y8bod8P' "
+#https://gihub.com/mfgbhatti/archio.git
+
+# Declaring scripts directory
+SCRIPT_DIR="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
+clear
+menu () {
+echo -ne "           
+        .o.                          oooo         o8o            
+       .888.                         '888         '''            
+      .8'888.     oooo d8b  .ooooo.   888 .oo.   oooo   .ooooo.  
+     .8' '888.    '888''8P d88' ''Y8  888P'Y88b  '888  d88' '88b 
+    .88ooo8888.    888     888        888   888   888  888   888 
+   .8'     '888.   888     888   .o8  888   888   888  888   888 
+   88o     o8888o d888b    'Y8bod8P' o888o o888o o888o 'Y8bod8P' 
+-----------------------------------------------------------------
+    Please select option for configuration from this menu     
+    and make sure all selected options are in order given.    
+    You can skip an option depending thats is already done.   
+-----------------------------------------------------------------
+    1)     Connect to internet                             
+    2)     Format disk drive                               
+    3)     Mount disk drive                                
+    4)     Pacstrap packages and generate fstab            
+    5)     Locale generation (keyboard and sys language)   
+    6)     Configure pacman and reflector                  
+    7)     Install packages                                
+    8)     Enable services                                 
+    9)     Add user                                        
+    10)    Install bootloader
+    0)     Exit   
+
+Choose an option:  
+"                         
+read Op
+case $Op in
+    0) exit 0;;
+    *) echo -e "Wrong option";;
+    1) bash scripts/connect.sh; menu;;
+    2) bash scripts/format.sh; menu;;
+esac
+
+}
+menu
