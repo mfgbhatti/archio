@@ -26,7 +26,7 @@ for x in archlinux-keyring reflector rsync; do
 done
 cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.back
 reflector --age 48 --country GB --fastest 5 --latest 20 --protocol https --sort rate --save /etc/pacman.d/mirrorlist
-pacman -Sy
+pacman -Sy --noconfirm
 mkfs.vfat -F 32 -n "EFI" /dev/nvme0n1p1
 mkfs.btrfs -L ROOT /dev/nvme0n1p2 -f
 mount -L ROOT /mnt
