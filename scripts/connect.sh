@@ -38,25 +38,23 @@ case $interface in
     read passphrase
     iwctl --passphrase '$passphrase' station '$wlan' connect '$SSID'
     echo "Checking connection"
-    #echo "Sending pings to archlinux.org"
-    if ping -c 1 archlinux.org &>/dev/null
-    then
-        echo "There is some error this script cannot deal with!"
-    else 
+    
+    if ping -c 1 archlinux.org &>/dev/null; then
         echo "Hurray!! You are connected."
+    else 
+        echo "There is something this script cannot deal with!"
     fi
     timedatectl set-ntp true
     ;;
     2)
-        if ping -c 1 archlinux.org &>/dev/null
-    then
+    if ping -c 1 archlinux.org &>/dev/null; then
+        echo "Hurray!! You are connected."
+    else 
         iwconfig
         echo "Select interface for connecting:"
         read ENP
         ip link set $ENP up
         systemctl enable dhcpcd@$ENP.service
-    else 
-        echo "Hurray!! You are connected."
     fi
     timedatectl set-ntp true
     ;;
