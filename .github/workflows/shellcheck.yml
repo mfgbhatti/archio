@@ -4,6 +4,8 @@ name: shellcheck
 on:
   push:
     branches: [ main ]
+    paths:
+      - '_still_working_on/**'
   pull_request:
     branches: [ main ]
 

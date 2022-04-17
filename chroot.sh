@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-
-
 #"     .o.                          oooo         o8o            "
 #"    .888.                         '888         '''            "
 #"   .8'888.     oooo d8b  .ooooo.   888 .oo.   oooo   .ooooo.  "

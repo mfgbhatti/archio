@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-
-
 #"     .o.                          oooo         o8o            "
 #"    .888.                         '888         '''            "
 #"   .8'888.     oooo d8b  .ooooo.   888 .oo.   oooo   .ooooo.  "
@@ -59,4 +57,4 @@ pacstrap "$MOUNTPOINT" base base-devel linux linux-firmware linux-headers intel-
 cp /etc/pacman.d/mirrorlist "$MOUNTPOINT"/etc/pacman.d/mirrorlist
 cp /etc/pacman.conf "$MOUNTPOINT"/etc/pacman.conf
 genfstab -U "$MOUNTPOINT" >> "$MOUNTPOINT"/etc/fstab
-curl https://raw.githubusercontent.com/mfgbhatti/archio/main/chroot.sh > "$MOUNTPOINT"/home/farhan/chroot.sh && arch-chroot "$MOUNTPOINT" /usr/bin/runuser -u farhan -- /home/farhan/chroot.sh && rm "$MOUNTPOINT"/home/farhan/chroot.sh
+curl "https://raw.githubusercontent.com/mfgbhatti/archio/main/chroot.sh" > "$MOUNTPOINT"/home/farhan/chroot.sh && arch-chroot "$MOUNTPOINT" /usr/bin/runuser -u farhan -- /home/farhan/chroot.sh && rm "$MOUNTPOINT"/home/farhan/chroot.sh
