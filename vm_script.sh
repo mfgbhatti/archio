@@ -9,21 +9,7 @@ USERNAME="farhan"
 ISO="GB"
 DISK="/dev/sda"
 PARTITION_PARTUUID=$(blkid -s PARTUUID -o value "$ROOT_PARTITION")
-# Package list
-PACKAGES=(
-    "base" 
-    "linux"
-    "linux-firmware"
-    "intel-ucode"
-    "neovim"
-    "sudo" 
-    "neovim" 
-    "efibootmgr"
-    "wget"
-    "git"
-    "dhclient" 
-    "networkmanager"
-    )
+
 # Command list
 COMMANDS=(
     "hwclock --systohc"
@@ -57,10 +43,11 @@ sgdisk -n 1::+300M --typecode=1:ef00 --change-name=1:"EFI" "$DISK"
 sgdisk -n 2::-0 --typecode=2:8300 --change-name=2:"ROOT" "$DISK"
 mkfs.vfat -F 32 -n "EFI" "$BOOT_PARTITION"
 mkfs.ext4 -L ROOT "$ROOT_PARTITION"
+
 mount "$ROOT_PARTITION" "$MOUNTPOINT"
 mkdir "$MOUNTPOINT"/boot
 mount -t vfat -L EFI "$MOUNTPOINT"/boot
-pacstrap "$MOUNTPOINT" "${PACKAGES[*]}" --noconfirm --needed
+pacstrap "$MOUNTPOINT" base linux linux-firmware intel-ucode neovim sudo neovim efibootmgr wget git dhclient networkmanager --noconfirm --needed
 cp /etc/pacman.d/mirrorlist "$MOUNTPOINT"/etc/pacman.d/mirrorlist
 sed -i 's/^# %wheel ALL=(ALL) ALL/%wheel ALL=(ALL) ALL/' "$MOUNTPOINT"/etc/sudoers
 sed -i 's/^#en_GB.UTF-8 UTF-8/en_GB.UTF-8 UTF-8/' "$MOUNTPOINT"/etc/locale.gen
