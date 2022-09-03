@@ -39,6 +39,11 @@ for x in archlinux-keyring reflector rsync; do
 	installpkg "$x"
 done
 reflector --age 48 --country "$ISO" -f 5 --latest 20 --protocol https --sort rate --save /etc/pacman.d/mirrorlist
+echo -ne "Preparing disk\n"
+wipefs -a -f "$DISK" >/dev/null 2>&1
+sgdisk -Z "$DISK"
+sgdisk -a 2048 -o "$DISK"
+
 sgdisk -n 1::+300M --typecode=1:ef00 --change-name=1:"EFI" "$DISK"
 sgdisk -n 2::-0 --typecode=2:8300 --change-name=2:"ROOT" "$DISK"
 mkfs.vfat -F 32 -n "EFI" "$BOOT_PARTITION"
