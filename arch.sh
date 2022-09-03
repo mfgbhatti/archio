@@ -19,7 +19,7 @@ installpkg(){ pacman --noconfirm --needed -S "$1" >/dev/null 2>&1 ;}
 
 # Variables
 MOUNTPOINT="/mnt"
-BTRFS_SUBVOLUMES=(@ @opt @tmp @var @usr-local)
+BTRFS_SUBVOLUMES=(@ @opt @var-tmp @var-cache @var-log @var-spool)
 MOUNTOPTION="noatime,commit=120,compress=zstd,ssd"
 BOOT_PARTITION="/dev/nvme0n1p1"
 ROOT_PARTITION="/dev/nvme0n1p2"
@@ -44,6 +44,7 @@ done
 umount "$MOUNTPOINT"
 btrfs check --clear-space-cache v2 "$ROOT_PARTITION"
 mount -o "$MOUNTOPTION",subvol=@ "$ROOT_PARTITION" "$MOUNTPOINT"
+
 for VOL in "${BTRFS_SUBVOLUMES[@]:1}"; do
 	DIR="${VOL//@/}"
 	DIR=$(echo "$DIR" | sed 's/-/\//')
