@@ -10,14 +10,6 @@ ISO="GB"
 DISK="/dev/sda"
 PARTITION_PARTUUID=$(blkid -s PARTUUID -o value "$ROOT_PARTITION")
 
-# Command list
-COMMANDS=(
-    "hwclock --systohc"
-    "ln -sf /usr/share/zoneinfo/Europe/London /etc/localtime"
-    "locale-gen"
-    "systemctl enable NetworkManager"
-    "useradd -m -g wheel -s /bin/bash $USERNAME"
-)
 password() {
     read -rs -p "Please enter password: " PASSWORD1
     echo -ne "\n"
@@ -60,13 +52,14 @@ echo "KEYMAP=uk" >"$MOUNTPOINT"/etc/vconsole.conf
 echo "Arch" >"$MOUNTPOINT"/etc/hostname
 echo "LANG=en_GB.UTF-8" >"$MOUNTPOINT"/etc/locale.conf
 echo "127.0.0.1 localhost Arch" >>"$MOUNTPOINT"/etc/hosts
- echo "::1 localhost Arch" >>"$MOUNTPOINT"/etc/hosts
-i=0
-while [ "$i" -lt "${#COMMANDS[@]}" ]; do
-    arch-chroot /mnt /usr/bin/runuser -u root -- "${COMMANDS[$i]}"
-done
-arch-chroot /mnt /usr/bin/runuser -u root -- echo "$USERNAME:$PASSWORD" | chpasswd
-genfstab -U "$MOUNTPOINT" >> "$MOUNTPOINT"/etc/fstab
+echo "::1 localhost Arch" >>"$MOUNTPOINT"/etc/hosts
+arch-chroot "$MOUNTPOINT" /usr/bin/runuser -u root -- hwclock --systohc
+arch-chroot "$MOUNTPOINT" /usr/bin/runuser -u root -- ln -sf /usr/share/zoneinfo/Europe/London /etc/localtime
+arch-chroot "$MOUNTPOINT" /usr/bin/runuser -u root -- locale-gen
+arch-chroot "$MOUNTPOINT" /usr/bin/runuser -u root -- systemctl enable NetworkManager
+arch-chroot "$MOUNTPOINT" /usr/bin/runuser -u root -- useradd -m -g wheel -s /bin/bash $USERNAME
+arch-chroot "$MOUNTPOINT" /usr/bin/runuser -u root -- echo "$USERNAME:$PASSWORD" | chpasswd
+genfstab -U "$MOUNTPOINT" >>"$MOUNTPOINT"/etc/fstab
 umount "$MOUNTPOINT"/boot
 umount "$MOUNTPOINT"
 efibootmgr --disk "$DISK" --part 1 --create --label "Arch" --loader "/vmlinuz-linux" --unicode "root=PARTUUID=$PARTITION_PARTUUID rw initrd=\intel-ucode.img initrd=\initramfs-linux.img"
