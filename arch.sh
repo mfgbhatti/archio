@@ -19,15 +19,16 @@ installpkg(){ pacman --noconfirm --needed -S "$1" >/dev/null 2>&1 ;}
 
 # Variables
 MOUNTPOINT="/mnt"
-BTRFS_SUBVOLUMES=(@ @opt @var-tmp @var-cache @var-log @var-spool)
+USERNAME="farhan"
+BTRFS_SUBVOLUMES=(@ @var-tmp @var-cache @var-log @var-spool)
 MOUNTOPTION="noatime,commit=120,compress=zstd,ssd"
 BOOT_PARTITION="/dev/nvme0n1p1"
 ROOT_PARTITION="/dev/nvme0n1p2"
 
-# starting ...
+# Starting ...
 timedatectl set-ntp true
 loadkeys uk
-sed -i "s/^#Para/Para/;s/^#Color$/Color/" /etc/pacman.conf
+sed -i "s/^#Para/Para/;s/^#Color$/Color/;s/^#Verbose/Verbose/" /etc/pacman.conf
 for x in archlinux-keyring reflector rsync; do
 	installpkg "$x"
 done
@@ -57,5 +58,15 @@ mount -t btrfs -L HOME "$MOUNTPOINT"/home
 pacstrap "$MOUNTPOINT" base base-devel linux linux-firmware linux-headers intel-ucode neovim sudo archlinux-keyring wget --noconfirm --needed
 cp /etc/pacman.d/mirrorlist "$MOUNTPOINT"/etc/pacman.d/mirrorlist
 cp /etc/pacman.conf "$MOUNTPOINT"/etc/pacman.conf
+
+curl "https://raw.githubusercontent.com/mfgbhatti/archio/main/chroot.sh" > "$MOUNTPOINT"/home/$USERNAME/chroot.sh && arch-chroot "$MOUNTPOINT" /usr/bin/runuser -u $USERNAME -- /home/$USERNAME/chroot.sh && rm "$MOUNTPOINT"/home/$USERNAME/chroot.sh
+
 genfstab -U "$MOUNTPOINT" >> "$MOUNTPOINT"/etc/fstab
-curl "https://raw.githubusercontent.com/mfgbhatti/archio/main/chroot.sh" > "$MOUNTPOINT"/home/farhan/chroot.sh && arch-chroot "$MOUNTPOINT" /usr/bin/runuser -u farhan -- /home/farhan/chroot.sh && rm "$MOUNTPOINT"/home/farhan/chroot.sh
+
+umount "$MOUNTPOINT"/boot
+umount "$MOUNTPOINT"/home
+umount "$MOUNTPOINT"
+
+# Ending ...
+echo "-=Main Section is Done=-"
+exit
